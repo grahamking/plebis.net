@@ -12,7 +12,7 @@ import (
 )
 
 const (
-    PORT = "8080"
+    PORT = "8081"
     HTML = "/usr/local/plebis/index.html"
     STORE = "/usr/local/plebis/store.dat"
 )
