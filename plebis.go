@@ -56,7 +56,7 @@ func doPost(response http.ResponseWriter, request *http.Request) {
     content := request.FormValue("content")
     date := request.FormValue("date")
     msg := Message{name, content, date}
-    store = append(store, msg)
+    store = append([]Message{msg}, store[:]...)
 
     header := response.Header()
     header.Set("Location", "/")
