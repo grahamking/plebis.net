@@ -15,7 +15,7 @@
 
         #hd { border-bottom: 1px solid black; padding: 3px; }
         #ft { border-top: 1px solid black; padding: 3px; }
-
+		#spam { float: right; }
         #top_username {	text-align: center;	font-weight: bold; }
         #sidebar { min-height: 20em; padding: 3px; margin: 1em 0; }
 
@@ -39,6 +39,7 @@
 			<div class="alignleft">
 				Plebis.Net
 			</div>
+			<div id="spam">Spam blocked: {{ .Spam }}</div>
 			<div id="top_username">Speak your mind</div>
 		</div>
 
