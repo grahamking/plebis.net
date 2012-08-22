@@ -6,25 +6,25 @@
 
     <title>Plebis.Net. Say something.</title>
 
-	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.6.0/build/reset-fonts-grids/reset-fonts-grids.css&2.6.0/build/base/base-min.css">
-
     <style type="text/css" media="screen">
+		body { font: 13px/1.231 arial,helvetica,clean,sans-serif; margin:0; padding:0; }
+
         .alignleft { float:left; text-align:left; }
         .alignright { float:right; text-align:right; }
         .hidden { display: none; }
 
-        #hd { border-bottom: 1px solid black; padding: 3px; }
-        #ft { border-top: 1px solid black; padding: 3px; }
-		#spam { float: right; }
+        header { border-bottom: 1px solid black; padding: 3px; }
+        footer { border-top: 1px solid black; padding: 3px; }
         #top_username {	text-align: center;	font-weight: bold; }
-        #sidebar { min-height: 20em; padding: 3px; margin: 1em 0; }
+        #sidebar { float: left; min-height: 20em; padding: 3px; margin: 1em 0; }
 
-        #messages { margin-left: 20px; }
+        #messages { margin-left: 375px; }
         #message { width: 100%; }
         .action { width: 100%; margin-top: 0.5em; }
         .action input { width: 100%; }
         input#name { float:right; width: 210px; }
 
+		fieldset { border: 0; }
         .message { border-bottom: 1px solid lightgrey; }
         .timestamp { color: grey; font-style: italic; margin-top: 1em;}
         .system_message { color: lightgrey;	font-style: normal;	font-size: 100%; }
@@ -32,68 +32,54 @@
 
 </head>
 
-<body class="yui-skin-sam">
-	<div id="doc3" class="yui-t3">
-
-		<div id="hd">
-			<div class="alignleft">
-				Plebis.Net
-			</div>
-			<div id="spam">Spam blocked: {{ .Spam }}</div>
-			<div id="top_username">Speak your mind</div>
+<body>
+	<header>
+		<div class="alignleft">
+			Plebis.Net
 		</div>
+		<div class="alignright">Spam blocked: {{ .Spam }}</div>
+		<div id="top_username">Speak your mind</div>
+	</header>
 
-		<div id="bd">
+	<div id="sidebar">
 
-			<div id="sidebar" class="yui-b">
-
-                <form
-                    id="message_form"
-                    name="message_form"
-                    method="post"
-                    action="">
-					<fieldset>
-						<input type="text" name="name" id="name" />
-						<label for="name">Your name:</label>
-					</fieldset>
-					<fieldset>
-						<label for="message">Your mind:</label>
-						<textarea id="message" rows="15" cols="30" name="content"></textarea>
-						<script type="text/javascript">
-							document.write("<input type=hidden name='date' value='"+ new Date() +"' />");
-						</script>
-						<div class="action">
-							<input type="submit" value="Write message" />
-						</div>
-					</fieldset>
-				</form>
-
-			</div>
-
-			<div id="yui-main">
-				<div class="yui-b">
-
-					<div id="messages">
-                        {{ range .Store }}
-							<div class="message">
-                                <h2>{{.Name}}</h2>
-                                <pre>{{.Content}}</pre>
-                                <div class="timestamp">{{.Date}}</div>
-							</div>
-                        {{ end }}
-					</div>
-
+		<form
+			id="message_form"
+			name="message_form"
+			method="post"
+			action="">
+			<fieldset>
+				<input type="text" name="name" id="name" />
+				<label for="name">Your name:</label>
+			</fieldset>
+			<fieldset>
+				<label for="message">Your mind:</label>
+				<textarea id="message" rows="15" cols="30" name="content"></textarea>
+				<script type="text/javascript">
+					document.write("<input type=hidden name='date' value='"+ new Date() +"' />");
+				</script>
+				<div class="action">
+					<input type="submit" value="Write message" />
 				</div>
-			</div>
-
-		</div>
-
-		<div id="ft">
-		    By <a href="http://www.darkcoding.net">darkcoding</a>
-            &nbsp; - &nbsp; <a href="http://github.com/grahamking/plebis.net">source</a>
-		</div>
+			</fieldset>
+		</form>
 
 	</div>
+
+	<div id="messages">
+		{{ range .Store }}
+			<div class="message">
+				<h2>{{.Name}}</h2>
+				<pre>{{.Content}}</pre>
+				<div class="timestamp">{{.Date}}</div>
+			</div>
+		{{ end }}
+	</div>
+
+	<footer>
+		By <a href="http://www.darkcoding.net">darkcoding</a>
+		&nbsp; - &nbsp; <a href="http://github.com/grahamking/plebis.net">source</a>
+	</footer>
 
 </body>
 
