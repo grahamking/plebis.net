@@ -104,6 +104,11 @@ func (self Message) IsSpam() bool {
 		return true
 	}
 
+	// Date must include the year 20??
+	if ! strings.Contains(self.Date, "20") {
+		return true
+	}
+
 	return false
 }
 
