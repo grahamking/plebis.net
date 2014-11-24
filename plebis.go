@@ -1,5 +1,5 @@
 /*
-Copyright 2012 Graham King <graham@gkg.org>
+Copyright 2012-2014 Graham King <graham@gkg.org>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
@@ -18,6 +18,7 @@ package main
 import (
 	"bufio"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"html/template"
 	"io"
@@ -27,14 +28,13 @@ import (
 	"strings"
 )
 
-const (
-	PORT  = "8081"
-	HTML  = "/usr/local/plebis/index.html"
-	STORE = "/usr/local/plebis/store.dat"
+var (
+	port  = flag.String("p", "8081", "Port")
+	index = flag.String("x", "/usr/local/plebis/index.html", "Full path of index.html")
+	db    = flag.String("s", "/usr/local/plebis/store.dat", "Full path of store data file")
+	store = make([]Message, 0, 25)
+	spam  = 0
 )
-
-var store = make([]Message, 0, 25)
-var spam = 0
 
 type Context struct {
 	Store []Message
@@ -42,10 +42,11 @@ type Context struct {
 }
 
 func main() {
+	flag.Parse()
 	load()
-	fmt.Println("plebis.net listening on port", PORT)
+	fmt.Println("plebis.net listening on port", *port)
 	http.HandleFunc("/", handler)
-	log.Fatal(http.ListenAndServe(":"+PORT, nil))
+	log.Fatal(http.ListenAndServe(":"+*port, nil))
 }
 
 func handler(response http.ResponseWriter, request *http.Request) {
@@ -59,7 +60,7 @@ func handler(response http.ResponseWriter, request *http.Request) {
 
 func doGet(response http.ResponseWriter, request *http.Request) {
 
-	tmpl, err := template.ParseFiles(HTML)
+	tmpl, err := template.ParseFiles(*index)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -105,7 +106,7 @@ func (self Message) IsSpam() bool {
 	}
 
 	// Date must include the year 20??
-	if ! strings.Contains(self.Date, "20") {
+	if !strings.Contains(self.Date, "20") {
 		return true
 	}
 
@@ -118,7 +119,7 @@ func persist() {
 	var jsonData []byte
 	var err error
 
-	outFile, openErr := os.Create(STORE)
+	outFile, openErr := os.Create(*db)
 	if openErr != nil {
 		log.Fatal(openErr)
 	}
@@ -140,7 +141,7 @@ func load() {
 	var err error
 	var msg *Message
 
-	outFile, openErr := os.Open(STORE)
+	outFile, openErr := os.Open(*db)
 	if openErr != nil {
 		if os.IsNotExist(openErr) { // No data yet, fine
 			return
