@@ -1,0 +1,17 @@
+---
+# ansible-playbook main.yml
+- name: Run plebis on remote server
+  hosts: servername
+  sudo: True
+  tasks:
+    - name: Copy upstart script
+      copy: src=plebis.conf dest=/etc/init/
+    - name: Create data directory
+      file: >
+          name=/var/lib/plebis
+          state=directory
+          owner=www-data
+          group=www-data
+          mode=755
+    - name: Start plebis container
+      service: name=plebis state=started enabled=yes pattern=plebis
