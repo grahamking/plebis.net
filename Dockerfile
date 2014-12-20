@@ -1,4 +1,4 @@
-# sudo docker run --name=plebis -d -p 8081:8081 grahamking/plebis
+# sudo docker run --name=plebis -d localhost:5000/plebis
 FROM debian:stable
 MAINTAINER Graham King <graham@gkgk.org>
 RUN mkdir -p /opt/plebis && chown www-data:www-data /opt/plebis
