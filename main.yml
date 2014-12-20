@@ -11,9 +11,7 @@
           owner=www-data
           group=www-data
           mode=755
-    - name: Stop plebis container
-      docker: name=plebis image=localhost:5000/plebis state=stopped
-    - name: Remove plebis container
-      command: docker rm plebis
+    - name: Stop / remove plebis container
+      docker: name=plebis image=localhost:5000/plebis state=absent
     - name: Start plebis container
       command: docker run --name=plebis -d --restart=always -v /var/lib/plebis:/opt/plebis/data localhost:5000/plebis
